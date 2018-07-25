@@ -16,7 +16,6 @@ import org.springframework.hateoas.Resources;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ahealth.api.rest.dto.ResourceDTO;
@@ -43,7 +42,6 @@ public class RootResource {
 	
 	@GetMapping
 	public Resources<ResourceDTO> getResources() {
-		addResource();
 		List<Resource> resourceList =  new ArrayList<>(repository.findAll());
 		List<ResourceDTO> resourceDTOList = resourceList
 												.stream()
@@ -83,61 +81,5 @@ public class RootResource {
 	 */
 	private ResourceDTO convertEnityToDto(Resource resource) {
 		return mapper.map(resource, ResourceDTO.class);
-	}
-	
-	private void addResource()
-	{
-		repository.deleteAll();
-		Resource getPatients = new Resource("GET PATIENTS",
-						"Retrives all Patients information.",
-						"http://localhost:8999/patients",
-						RequestMethod.GET.name());
-		repository.save(getPatients);
-		
-		Resource getPhysicians = new Resource("GET PHYSICIANS",
-						"Retrieves all Physician information.",
-						"http://localhost:8999/physicians",
-						RequestMethod.GET.name());
-		
-		repository.save(getPhysicians);
-		
-		Resource addPatient = new Resource("ADD PATIENT",
-						"Add a new Patient.",
-						"http://localhost:8999/patients",
-						RequestMethod.POST.name());
-		repository.save(addPatient);
-		
-		Resource addPhysician = new Resource("ADD PHYSICIAN",
-						"Add a new Physician.",
-						"http://localhost:8999/physicians",
-						RequestMethod.POST.name());
-
-		repository.save(addPhysician);
-		
-		Resource updatePatient = new Resource("UPDATE PATIENT",
-						"Update the existing Patient Information.",
-						"http://localhost:8999/patients",
-						RequestMethod.PUT.name());
-		repository.save(updatePatient);
-		
-		Resource updatePhysician = new Resource("UPDATE PHYSICIAN",
-						"Update the existing Physician Information.",
-						"http://localhost:8999/physicians",
-						RequestMethod.PUT.name());
-		
-		repository.save(updatePhysician);
-		
-		Resource deletePatient = new Resource("DELETE PATIENT",
-						"Deletes the Patient Record.",
-						"http://localhost:8999/patients",
-						RequestMethod.DELETE.name());
-		repository.save(deletePatient);
-		
-		Resource deletePhysician = new Resource("DELETE PHYSICIAN",
-						"Deletes the Physician Record.",
-						"http://localhost:8999/physicians",
-						RequestMethod.DELETE.name());
-		
-		repository.save(deletePhysician);
 	}
 }
